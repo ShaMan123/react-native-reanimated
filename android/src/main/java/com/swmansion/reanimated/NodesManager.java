@@ -19,6 +19,7 @@ import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.UIManagerReanimatedHelper;
 import com.facebook.react.uimanager.events.Event;
 import com.facebook.react.uimanager.events.EventDispatcherListener;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.swmansion.reanimated.nodes.AlwaysNode;
 import com.swmansion.reanimated.nodes.BezierNode;
 import com.swmansion.reanimated.nodes.BlockNode;
@@ -67,7 +68,7 @@ public class NodesManager implements EventDispatcherListener {
   }
 
   private final SparseArray<Node> mAnimatedNodes = new SparseArray<>();
-  private final Map<String, EventNode> mEventMapping = new HashMap<>();
+  private final Map<String, Node> mEventMapping = new HashMap<>();
   private final UIImplementation mUIImplementation;
   private final DeviceEventManagerModule.RCTDeviceEventEmitter mEventEmitter;
   private final ReactChoreographer mReactChoreographer;
@@ -367,7 +368,7 @@ public class NodesManager implements EventDispatcherListener {
   public void attachEvent(int viewTag, String eventName, int eventNodeID) {
     String key = viewTag + eventName;
 
-    EventNode node = (EventNode) mAnimatedNodes.get(eventNodeID);
+    Node node = mAnimatedNodes.get(eventNodeID);
     if (node == null) {
       throw new JSApplicationIllegalArgumentException("Event node " + eventNodeID + " does not exists");
     }
@@ -420,9 +421,9 @@ public class NodesManager implements EventDispatcherListener {
       String eventName = mCustomEventNamesResolver.resolveCustomEventName(event.getEventName());
       int viewTag = event.getViewTag();
       String key = viewTag + eventName;
-      EventNode node = mEventMapping.get(key);
+      Node node = mEventMapping.get(key);
       if (node != null) {
-        event.dispatch(node);
+        event.dispatch((RCTEventEmitter) node.value());
       }
     }
   }
