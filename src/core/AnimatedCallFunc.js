@@ -20,6 +20,30 @@ export default class AnimatedCallFunc extends AnimatedNode {
     this._what = what;
     this._args = args;
     this._params = params;
+
+    //  assign prototype from source
+    const sourcePrototype = this.__source().constructor;
+
+
+    console.log(Object.getOwnPropertySymbols(sourcePrototype), sourcePrototype)
+    const obj = this.__source().constructor;
+    for (var key in obj) {
+      if (Object.prototype.value && typeof obj[key] === 'function') {
+        var val = obj[key];
+        console.log(key, val)
+        // use val
+      }
+    }
+
+    for (const key in sourcePrototype) {
+      console.log(key)
+      if (typeof sourcePrototype[key] === 'function') {
+        const method = sourcePrototype[key].bind(this);
+        Object.defineProperty(this, key, {
+          value: method
+        });
+      }
+    }
   }
 
   beginContext() {

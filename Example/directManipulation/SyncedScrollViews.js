@@ -3,8 +3,18 @@ import { Image, StyleSheet, ScrollView as RNScrollView } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { State, NativeViewGestureHandler, PanGestureHandler } from 'react-native-gesture-handler';
 
-const { Value, event, dispatch, useCode, createAnimatedComponent, block, cond, not, and, divide, acc, eq, set, View, or, debug, add, call } = Animated;
+const { Value, event, proc, dispatch, useCode, createAnimatedComponent, block, cond, not, and, divide, acc, eq, set, View, or, debug, add, call } = Animated;
 const ScrollView = createAnimatedComponent(RNScrollView);
+
+const onScrollBeginDrag = proc((selector, state, scrollX, scrollY) =>
+  event([{
+    nativeEvent: ({ contentOffset: { x, y } }) => block([
+      set(state, selector),
+      set(scrollX, x),
+      set(scrollY, y)
+    ])
+  }])
+);
 
 export default function SyncedScrollViews() {
   //const [handleA, setHandleA] = React.useState();
@@ -30,24 +40,12 @@ export default function SyncedScrollViews() {
   const scrollBRef = useRef();
 
   const beginDragA = useMemo(() =>
-    event([{
-      nativeEvent: ({ contentOffset: { x, y } }) => block([
-        set(state, 1),
-        set(scrollX, x),
-        set(scrollY, y)
-      ])
-    }]),
+    onScrollBeginDrag(1, state, scrollX, scrollY),
     [state]
   );
 
   const beginDragB = useMemo(() =>
-    event([{
-      nativeEvent: ({ contentOffset: { x, y } }) => block([
-        set(state, 2),
-        set(scrollX, x),
-        set(scrollY, y)
-      ])
-    }]),
+    onScrollBeginDrag(2, state, scrollX, scrollY),
     [state]
   );
 
