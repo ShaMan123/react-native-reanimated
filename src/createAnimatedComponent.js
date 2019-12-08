@@ -17,7 +17,7 @@ function listener(data) {
 }
 
 function getEventNode(node) {
-  if (node instanceof AnimatedEvent) {
+  if (node instanceof AnimatedEvent || (node instanceof AnimatedCallFunc && node.__source() instanceof AnimatedEvent)) {
     return node;
   } else if (node instanceof AnimatedCallFunc) {
     throw new Error('events nested in procs are not yet supported');
