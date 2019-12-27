@@ -1,6 +1,6 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { StyleSheet, processColor, Platform, StatusBar, UIManager, findNodeHandle } from 'react-native';
-import Animated, { Transitioning, Transition } from 'react-native-reanimated';
+import Animated, { Transitioning, Transition, TransitionState } from 'react-native-reanimated';
 import { FlatList as GHFlatList, State, PanGestureHandler, RectButton, ScrollView } from 'react-native-gesture-handler';
 
 const {
@@ -208,6 +208,7 @@ function Shuffle() {
   const absoluteX = useMemo(() => new Value(-1), []);
   const absoluteY = useMemo(() => new Value(-1), []);
   const evaluate = useMemo(() => debug('eval', new Value(0)), []);
+  const transitionState = useMemo(() => debug('transitionState', new Value(TransitionState.END)), []);
   const holder = useMemo(() => debug('eval', new Value(0)), []);
 
   const onScrollSetEvaluate = useMemo(() =>
@@ -305,8 +306,8 @@ function Shuffle() {
                 setItems(shuffled);
 
                 //  an ugly workaround until `onTransitionStateChange` will be available on both platforms (hopefully!)
-                setTimeout(() => evaluate.setValue(add(evaluate, 1)), 500);
-                setTimeout(() => evaluate.setValue(add(evaluate, 1)), 1500);
+                //setTimeout(() => evaluate.setValue(add(evaluate, 1)), 500);
+                //setTimeout(() => evaluate.setValue(add(evaluate, 1)), 1500);
               }}
             >
               <Text

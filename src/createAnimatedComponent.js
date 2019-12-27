@@ -111,6 +111,7 @@ export default function createAnimatedComponent(Component) {
       const node = this._getEventViewRef();
       const attached = new Set();
       const nextEvts = new Set();
+      const nativeUpdate = {};
 
       forEachEvent(this.props, (ev, key) => nextEvts.add(ev.__nodeID));
 
@@ -132,7 +133,7 @@ export default function createAnimatedComponent(Component) {
           nativeUpdate[key] = true;
         }
       });
-          
+
       this.setNativeProps(nativeUpdate);
     }
 

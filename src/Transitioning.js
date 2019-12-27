@@ -172,11 +172,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const TransitionState = {
-  BEGAN: 0,
-  END: 1
-};
-
 const Transitioning = {
   View: createTransitioningComponent(View),
 };
