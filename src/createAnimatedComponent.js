@@ -16,6 +16,11 @@ function listener(data) {
   component && component._updateFromNative(data.props);
 }
 
+const platformProps = Platform.select({
+  web: {},
+  default: { collapsable: false },
+});
+
 function getEventNode(node) {
   if (node instanceof AnimatedEvent) {
     return node;
@@ -87,7 +92,14 @@ export default function createAnimatedComponent(Component) {
 
     _attachNativeEvents() {
       const node = this._getEventViewRef();
-      forEachEvent(this.props, (ev, key) => ev.attachEvent(node, key));
+      const nativeUpdate = {};
+
+      forEachEvent(this.props, (ev, key) => {
+        ev.attachEvent(node, key);
+        nativeUpdate[key] = true;
+      });
+
+      this.setNativeProps(nativeUpdate)
     }
 
     _detachNativeEvents() {
@@ -106,6 +118,7 @@ export default function createAnimatedComponent(Component) {
         if (!nextEvts.has(ev.__nodeID)) {
           // event was in prev props but not in current props, we detach
           ev.detachEvent(node, key);
+          nativeUpdate[key] = false;
         } else {
           // event was in prev and is still in current props
           attached.add(ev.__nodeID);
@@ -116,8 +129,11 @@ export default function createAnimatedComponent(Component) {
         if (!attached.has(ev.__nodeID)) {
           // not yet attached
           ev.attachEvent(node, key);
+          nativeUpdate[key] = true;
         }
       });
+          
+      this.setNativeProps(nativeUpdate);
     }
 
     // The system is best designed when setNativeProps is implemented. It is
