@@ -1,16 +1,11 @@
 package com.swmansion.reanimated.nodes;
 
-import androidx.appcompat.view.SupportActionModeWrapper;
-
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.swmansion.reanimated.NodesManager;
-import com.swmansion.reanimated.Utils;
 
 import javax.annotation.Nullable;
 

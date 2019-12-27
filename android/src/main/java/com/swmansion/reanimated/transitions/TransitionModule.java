@@ -1,21 +1,16 @@
 package com.swmansion.reanimated.transitions;
 
-import androidx.annotation.Nullable;
-import androidx.transition.TransitionManager;
-
 import android.view.View;
-import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.IllegalViewOperationException;
 import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.uimanager.UIManagerModule;
-
-import javax.annotation.Nullable;
 
 public class TransitionModule {
 

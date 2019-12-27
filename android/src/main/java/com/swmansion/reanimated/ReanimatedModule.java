@@ -223,7 +223,9 @@ public class ReanimatedModule extends ReactContextBaseJavaModule implements
         nodesManager.setValue(nodeID, newValue);
       }
     });
+  }
 
+  @ReactMethod
   public void getDirectManipulationUtil(final Promise promise) {
     promise.resolve(getNodesManager().getBridgeDelegate().getDevUtil());
   }
